@@ -5,18 +5,23 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace AStar.Dev.Versioning.Demo;
+namespace AStar.Dev.Versioning.Demo.ApplicationConfiguration;
 
 public sealed class ConfigureSwaggerOptions (IApiVersionDescriptionProvider provider) : IConfigureOptions<SwaggerGenOptions>
 {
     public void Configure(SwaggerGenOptions options)
     {
-        // add a swagger document for each discovered API version
-        // note: you might choose to skip or document deprecated API versions differently
-        foreach (var description in provider.ApiVersionDescriptions)
-            options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
+        AddSwaggerDocumentForEachApiVersion(options);
 
         options.CustomOperationIds(d => (d.ActionDescriptor as ControllerActionDescriptor)?.ActionName);
+    }
+
+    private void AddSwaggerDocumentForEachApiVersion(SwaggerGenOptions options)
+    {
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+            options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
+        }
     }
 
     private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
@@ -25,13 +30,13 @@ public sealed class ConfigureSwaggerOptions (IApiVersionDescriptionProvider prov
                    {
                        Title   = "Versioning API Demo",
                        Version = description.ApiVersion.ToString(),
-                       Contact = new()
-                                 {
-                                     Name = "Someone Anyone", Email = "someemail@nowhere.com", Url = new ("https://www.capgemini.com")
-                                 }
+                       Contact = new() { Name = "Someone Anyone", Email = "someemail@nowhere.com", Url = new ("https://astardevelopment.co.uk") }
                    };
 
-        if (description.IsDeprecated) info.Description += " This API version has been deprecated.";
+        if (description.IsDeprecated)
+        {
+            info.Description += " This API version has been deprecated. Please review the 'api-supported-versions' header for supported versions";
+        }
 
         return info;
     }

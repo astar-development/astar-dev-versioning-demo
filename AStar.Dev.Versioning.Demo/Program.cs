@@ -1,8 +1,6 @@
-using Asp.Versioning.ApiExplorer;
-using AStar.Dev.Versioning.Demo;
+using AStar.Dev.Versioning.Demo.ApplicationConfiguration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +8,8 @@ builder.ConfigureServices();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) app.MapOpenApi();
+var appConfiguration = app.Services.GetRequiredService<AppConfiguration>();
 
-var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-app.ConfigureApplication(apiVersionDescriptionProvider);
+appConfiguration.ConfigureApplication(app);
 
 app.Run();

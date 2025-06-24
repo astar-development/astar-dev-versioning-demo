@@ -1,6 +1,6 @@
 using System;
 
-namespace AStar.Dev.Versioning.Demo;
+namespace AStar.Dev.Versioning.Demo.Weather;
 
 public class WeatherForecast
 {
