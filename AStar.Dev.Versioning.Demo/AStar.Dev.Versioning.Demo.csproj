@@ -13,11 +13,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\" />
+        <Folder Include="wwwroot\"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="wwwroot\swagger-ui\SwaggerDark.css" />
+        <None Include="wwwroot\swagger-ui\SwaggerDark.css"/>
     </ItemGroup>
 
 

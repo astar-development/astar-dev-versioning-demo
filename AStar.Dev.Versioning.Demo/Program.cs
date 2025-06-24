@@ -25,7 +25,7 @@ builder.Services.AddApiVersioning(options =>
                                       // change. Conceptually, clients in this situation are bound to some API version of
                                       // a service, but they don't know what it is and never explicit request it.
                                       options.AssumeDefaultVersionWhenUnspecified = true;
-                                      options.DefaultApiVersion                   = new ApiVersion(2, 0);
+                                      options.DefaultApiVersion                   = new (2, 0);
 
                                       // Defines how an API version is read from the current HTTP request
                                       options.ApiVersionReader = ApiVersionReader.Combine(
@@ -53,12 +53,9 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-var avdp = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-app.Configure(avdp);
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+app.Configure(apiVersionDescriptionProvider);
 app.MapControllers();
 
 app.Run();

@@ -1,5 +1,4 @@
-﻿using System;
-using Asp.Versioning.ApiExplorer;
+﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -8,15 +7,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AStar.Dev.Versioning.Demo;
 
-public sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+public sealed class ConfigureSwaggerOptions (IApiVersionDescriptionProvider provider) : IConfigureOptions<SwaggerGenOptions>
 {
-    private readonly IApiVersionDescriptionProvider provider;
-
-    public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider)
-    {
-        this.provider = provider;
-    }
-
     public void Configure(SwaggerGenOptions options)
     {
         // add a swagger document for each discovered API version
@@ -30,14 +22,14 @@ public sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOption
     private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
     {
         var info = new OpenApiInfo
-        {
-            Title = "Versioning API Demo",
-            Version = description.ApiVersion.ToString(),
-            Contact = new OpenApiContact
-            {
-                Name = "Someone Anyone", Email = "someemail@nowhere.com", Url = new Uri("https://www.capgemini.com")
-            }
-        };
+                   {
+                       Title   = "Versioning API Demo",
+                       Version = description.ApiVersion.ToString(),
+                       Contact = new()
+                                 {
+                                     Name = "Someone Anyone", Email = "someemail@nowhere.com", Url = new ("https://www.capgemini.com")
+                                 }
+                   };
 
         if (description.IsDeprecated) info.Description += " This API version has been deprecated.";
 

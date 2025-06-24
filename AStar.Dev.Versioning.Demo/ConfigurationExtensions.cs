@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Builder;
 
 namespace AStar.Dev.Versioning.Demo;
 
-public static class Rename
+public static class ConfigurationExtensions
 {
-    public static void Configure(this IApplicationBuilder            app, IApiVersionDescriptionProvider provider)
+    public static void Configure(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
     {
         app.UseHttpsRedirection();
         app.UseStaticFiles();
