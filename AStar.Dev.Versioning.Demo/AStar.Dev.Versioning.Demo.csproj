@@ -2,6 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <Company>AStar Development</Company>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DocumentationFile>AStar.Dev.Versioning.Demo.xml</DocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
