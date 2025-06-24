@@ -22,8 +22,7 @@ public class SwaggerDefaultValues : IOperationFilter
             var description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
             parameter.Description ??= description.ModelMetadata?.Description;
 
-            if (parameter.Schema.Default == null && description.DefaultValue != null)
-                parameter.Schema.Default = new OpenApiString(description.DefaultValue.ToString());
+            if (parameter.Schema.Default == null && description.DefaultValue != null) parameter.Schema.Default = new OpenApiString(description.DefaultValue.ToString());
 
             parameter.Required |= description.IsRequired;
         }
