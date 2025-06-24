@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -26,18 +26,20 @@ public class WeatherForecastController : ControllerBase
     [HttpGet]
     [Produces("application/json")]
     [ProducesErrorResponseType(typeof(ProblemDetails))]
+
     //[ProducesResponseType(typeof(IEnumerable<WeatherForecast>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<IEnumerable<WeatherForecast>> GetForecast()
     {
         logger.LogInformation("GetForecast called."); // added to stop the "not used" warning
         var rng = new Random();
+
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                                                      {
+                                                          Date         = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                                                          TemperatureC = rng.Next(-20, 55),
+                                                          Summary      = Summaries[rng.Next(Summaries.Length)]
+                                                      })
+                         .ToArray();
     }
 }
